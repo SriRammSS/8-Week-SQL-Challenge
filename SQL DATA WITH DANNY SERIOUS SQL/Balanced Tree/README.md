@@ -138,6 +138,4 @@ These tables are used only for the bonus question where we will use them to recr
 
 [10. What is the most common combination of at least 1 quantity of any 3 products in a 1 single transaction?](https://github.com/muryulia/8-Week-SQL-Challenge/blob/main/Case%20Study%20%237%20-%20Balanced%20Tree%20Clothing%20Co./Solution.md#10-what-is-the-most-common-combination-of-at-least-1-quantity-of-any-3-products-in-a-1-single-transaction)
 
-[Reporting Challenge](https://github.com/muryulia/8-Week-SQL-Challenge/blob/main/Case%20Study%20%237%20-%20Balanced%20Tree%20Clothing%20Co./Solution.md#reporting-challenge)
 
-[Bonus Challenge](https://github.com/muryulia/8-Week-SQL-Challenge/blob/main/Case%20Study%20%237%20-%20Balanced%20Tree%20Clothing%20Co./Solution.md#bonus-challenge)
