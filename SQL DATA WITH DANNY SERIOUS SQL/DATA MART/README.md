@@ -1,78 +1,121 @@
-## Case Study #4: Data Bank
+# Case Study #5: Data Mart
 
-<img src="https://user-images.githubusercontent.com/81607668/130343294-a8dcceb7-b6c3-4006-8ad2-fab2f6905258.png" alt="Image" width="500" height="520">
+<img src="https://user-images.githubusercontent.com/81607668/131437982-fc087a4c-0b77-4714-907b-54e0420e7166.png" alt="Image" width="500" height="520">
 
 ## 📚 Table of Contents
 - [Business Task](#business-task)
 - [Entity Relationship Diagram](#entity-relationship-diagram)
-- [Case Study Questions](#case-study-questions)
-- Solution
-  - [A. Customer Nodes Exploration](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%234%20-%20Data%20Bank/A.%20Customer%20Nodes%20Exploration.md)
-  - [B. Customer Transactions](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%234%20-%20Data%20Bank/B.%20Customer%20Transactions.md)
-  - [Complete SQL Syntax](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%234%20-%20Data%20Bank/SQL%20Syntax/Complete%20SQL%20solution.sql)
+- [Case Study Solution](#case-study-solution)
+  - [A. Data Cleansing Steps](#a-data-cleansing-steps)
+  - [B. Data Exploration](#b-data-exploration)
+  - [C. Before & After Analysis](#c-before--after-analysis)
+  - [D. Bonus Question](#d-bonus-question)
+  - [Complete SQL Syntax]
 
 ***
 
 ## Business Task
-Danny launched a new initiative, Data Bank which runs **banking activities** and also acts as the world’s most secure distributed **data storage platform**!
+Data Mart is an online supermarket that specialises in fresh produce.
 
-Customers are allocated cloud data storage limits which are directly linked to how much money they have in their accounts. 
+In June 2020 - large scale supply changes were made at Data Mart. All Data Mart products now use sustainable packaging methods in every single step from the farm all the way to the customer.
 
-The management team at Data Bank want to increase their total customer base - but also need some help tracking just how much data storage their customers will need.
+Danny needs your help to analyse and quantify the impact of this change on the sales performance for Data Mart and it’s separate business areas.
 
-This case study is all about calculating metrics, growth and helping the business analyse their data in a smart way to better forecast and plan for their future developments!
+The key business question to answer are the following:
+- What was the quantifiable impact of the changes introduced in June 2020?
+- Which platform, region, segment and customer types were the most impacted by this change?
+- What can we do about future introduction of similar sustainability updates to the business to minimise impact on sales?
 
 ## Entity Relationship Diagram
 
-<img width="631" alt="image" src="https://user-images.githubusercontent.com/81607668/130343339-8c9ff915-c88c-4942-9175-9999da78542c.png">
+For this case study there is only a single table: data_mart.weekly_sales
 
-**Table 1: Regions**
+<img width="287" alt="image" src="https://user-images.githubusercontent.com/81607668/131438278-45e6a4e8-7cf5-468a-937b-2c306a792782.png">
 
-This regions table contains the region_id and their respective region_name values.
+Here are some further details about the dataset:
 
-<img width="176" alt="image" src="https://user-images.githubusercontent.com/81607668/130551759-28cb434f-5cae-4832-a35f-0e2ce14c8811.png">
+1. Data Mart has international operations using a multi-`region` strategy.
+2. Data Mart has both, a retail and online `platform` in the form of a Shopify store front to serve their customers.
+3. Customer `segment` and `customer_type` data relates to personal age and demographics information that is shared with Data Mart.
+4. `transactions` is the count of unique purchases made through Data Mart and `sales` is the actual dollar amount of purchases.
 
-**Table 2: Customer Nodes**
+Each record in the dataset is related to a specific aggregated slice of the underlying sales data rolled up into a week_date value which represents the start of the sales week.
 
-Customers are randomly distributed across the nodes according to their region. This random distribution changes frequently to reduce the risk of hackers getting into Data Bank’s system and stealing customer’s money and data!
+10 random rows are shown in the table output below from `data_mart.weekly_sales`.
 
-<img width="412" alt="image" src="https://user-images.githubusercontent.com/81607668/130551806-90a22446-4133-45b5-927c-b5dd918f1fa5.png">
-
-**Table 3: Customer Transactions**
-
-This table stores all customer deposits, withdrawals and purchases made using their Data Bank debit card.
-
-<img width="343" alt="image" src="https://user-images.githubusercontent.com/81607668/130551879-2d6dfc1f-bb74-4ef0-aed6-42c831281760.png">
+<img width="649" alt="image" src="https://user-images.githubusercontent.com/81607668/131438417-1e21efa3-9924-490f-9bff-3c28cce41a37.png">
 
 ***
 
-## Case Study Questions
+## Case Study Solution
 
-### A. Customer Nodes Exploration
+### A. Data Cleansing Steps
 
-View my solution [here](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%234%20-%20Data%20Bank/A.%20Customer%20Nodes%20Exploration.md).
+View my solution [here](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%235%20-%20Data%20Mart/A.%20Data%20Cleansing%20Steps.md).
 
-1. How many unique nodes are there on the Data Bank system?
-2. What is the number of nodes per region?
-3. How many customers are allocated to each region?
-4. How many days on average are customers reallocated to a different node?
-5. What is the median, 80th and 95th percentile for this same reallocation days metric for each region?
-
-### B. Customer Transactions
-
-View my solution [here](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%234%20-%20Data%20Bank/B.%20Customer%20Transactions.md).
+In a single query, perform the following operations and generate a new table in the `data_mart` schema named `clean_weekly_sales`:
+- Convert the `week_date` to a `DATE` format
+- Add a `week_number` as the second column for each `week_date` value, for example any value from the 1st of January to 7th of January will be 1, 8th to 14th will be 2 etc
+- Add a `month_number` with the calendar month for each `week_date` value as the 3rd column
+- Add a `calendar_year` column as the 4th column containing either 2018, 2019 or 2020 values
+- Add a new column called `age_band` after the original segment column using the following mapping on the number inside the segment value
   
-1. What is the unique count and total amount for each transaction type?
-2. What is the average total historical deposit counts and amounts for all customers?
-3. For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?
-4. What is the closing balance for each customer at the end of the month?
-5. Comparing the closing balance of a customer’s first month and the closing balance from their second nth, what percentage of customers:
-  - Have a negative first month balance?
-  - Have a positive first month balance?
-  - Increase their opening month’s positive closing balance by more than 5% in the following month?
-  - Reduce their opening month’s positive closing balance by more than 5% in the following month?
-  - Move from a positive balance in the first month to a negative balance in the second month?
+<img width="166" alt="image" src="https://user-images.githubusercontent.com/81607668/131438667-3b7f3da5-cabc-436d-a352-2022841fc6a2.png">
   
+- Add a new `demographic` column using the following mapping for the first letter in the `segment` values:  
+
+| segment | demographic | 
+| ------- | ----------- |
+| C | Couples |
+| F | Families |
+
+- Ensure all `null` string values with an "unknown" string value in the original `segment` column as well as the new `age_band` and `demographic` columns
+- Generate a new `avg_transaction` column as the sales value divided by transactions rounded to 2 decimal places for each record
+
 ***
 
-Do give me a 🌟 if you like what you're reading. Thank you! 🙆🏻‍♀️
+### B. Data Exploration 
+
+View my solution [here](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%235%20-%20Data%20Mart/B.%20Data%20Exploration.md).
+
+1. What day of the week is used for each week_date value?
+2. What range of week numbers are missing from the dataset?
+3. How many total transactions were there for each year in the dataset?
+4. What is the total sales for each region for each month?
+5. What is the total count of transactions for each platform
+6. What is the percentage of sales for Retail vs Shopify for each month?
+7. What is the percentage of sales by demographic for each year in the dataset?
+8. Which age_band and demographic values contribute the most to Retail sales?
+9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
+
+***
+
+### C. Before & After Analysis 
+
+View my solution [here](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%235%20-%20Data%20Mart/C.%20Before%20%26%20After%20Analysis.md).
+
+This technique is usually used when we inspect an important event and want to inspect the impact before and after a certain point in time.
+
+Taking the `week_date` value of `2020-06-15` as the baseline week where the Data Mart sustainable packaging changes came into effect. We would include all `week_date` values for `2020-06-15` as the start of the period after the change and the previous week_date values would be before.
+
+Using this analysis approach - answer the following questions:
+1. What is the total sales for the 4 weeks before and after `2020-06-15`? What is the growth or reduction rate in actual values and percentage of sales?
+2. What about the entire 12 weeks before and after?
+3. How do the sale metrics for these 2 periods before and after compare with the previous years in 2018 and 2019?
+
+***
+
+### D. Bonus Question
+
+View my solution [here](https://github.com/katiehuangx/8-Week-SQL-Challenge/blob/main/Case%20Study%20%235%20-%20Data%20Mart/D.%20Bonus%20Question.md).
+
+Which areas of the business have the highest negative impact in sales metrics performance in 2020 for the 12 week before and after period?
+- `region`
+- `platform`
+- `age_band`
+- `demographic`
+- `customer_type`
+
+Do you have any further recommendations for Danny’s team at Data Mart or any interesting insights based off this analysis?
+
+***
